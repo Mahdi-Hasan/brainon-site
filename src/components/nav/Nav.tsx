@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+// Image kept — still used in mobile menu floater
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -77,29 +78,12 @@ export function Nav() {
         }}
       >
         <div className="container-page flex items-center justify-between gap-6">
-          <Link
-            href="/"
-            aria-label="BrainOn — home"
-            className="group inline-flex items-center gap-3"
-          >
-            {/* Mark only on mobile, full lockup on md+ */}
-            <Image
-              src="/brand/brainon-mark.png"
-              alt=""
-              aria-hidden
-              width={64}
-              height={64}
-              priority
-              className="block size-9 transition-transform duration-500 group-hover:rotate-[-8deg] md:hidden"
-            />
-            <Image
-              src="/brand/brainon-logo.png"
-              alt="BrainOn"
-              width={1200}
-              height={600}
-              priority
-              className="hidden h-9 w-auto md:block"
-            />
+          <Link href="/" className="group inline-flex items-baseline gap-2 font-display text-xl tracking-tight">
+            <span className="display-heavy">Brain</span>
+            <span className="display-italic" style={{ color: "var(--color-cobalt)" }}>
+              on
+            </span>
+            <span className="ml-1 inline-block size-1.5 translate-y-[-2px] rounded-full bg-[var(--color-cobalt)] transition-transform duration-500 group-hover:scale-150" />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">

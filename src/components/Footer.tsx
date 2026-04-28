@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { SITE } from "@/content/site";
 import { OrbitGrid } from "@/components/art/SvgArt";
 import { WaveLine, HexNode, Constellation } from "@/components/art/MoreSvgArt";
@@ -88,16 +87,18 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="relative pb-4">
-          <Image
-            src="/brand/brainon-logo.png"
-            alt="BrainOn"
-            width={1800}
-            height={900}
-            sizes="(max-width: 768px) 90vw, 80vw"
-            className="block h-auto w-full max-w-[1400px] select-none"
-          />
-        </div>
+        <p
+          aria-hidden
+          className="font-display display-heavy select-none pb-4 text-[clamp(5rem,22vw,18rem)] leading-[0.85] tracking-[-0.06em]"
+          style={{
+            background: "linear-gradient(180deg, var(--color-ink) 0%, color-mix(in oklab, var(--color-ink) 15%, transparent) 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          BRAINON
+        </p>
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[color-mix(in_oklab,var(--color-ink)_12%,transparent)] py-6 font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-fog)]">
           <span>© MMXXVI · BrainOn Studio</span>
