@@ -6,6 +6,7 @@ import { Nav } from "@/components/nav/Nav";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/content/site";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </SmoothScroll>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
