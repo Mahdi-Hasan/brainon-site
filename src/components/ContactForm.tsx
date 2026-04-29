@@ -4,7 +4,6 @@ import { useActionState, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/cn";
 import { submitContact, type ContactState } from "@/app/actions/contact";
-import { Turnstile } from "@/components/Turnstile";
 
 const SCOPES = ["Product", "Design system", "AI integration", "Platform"];
 const BUDGETS = ["< $50k", "$50–150k", "$150–500k", "$500k+", "Not sure"];
@@ -16,7 +15,6 @@ export function ContactForm() {
   const [budget, setBudget] = useState<string>("");
   const [state, formAction, pending] = useActionState(submitContact, INITIAL);
 
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const fieldErrors = state.status === "error" ? state.fieldErrors ?? {} : {};
 
   return (
@@ -139,12 +137,6 @@ export function ContactForm() {
               ) : null}
             </label>
           </fieldset>
-
-          {turnstileSiteKey ? (
-            <div className="pt-2">
-              <Turnstile siteKey={turnstileSiteKey} />
-            </div>
-          ) : null}
 
           {state.status === "error" && state.message ? (
             <p

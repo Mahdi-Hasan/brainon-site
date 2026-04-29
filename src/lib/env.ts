@@ -25,10 +25,6 @@ export const env = {
     fromAddress: required("MAIL_FROM_ADDRESS"),
     toAddress: required("MAIL_TO_ADDRESS"),
   },
-  turnstile: {
-    siteKey: optional("NEXT_PUBLIC_TURNSTILE_SITE_KEY"),
-    secret: optional("TURNSTILE_SECRET_KEY"),
-  },
   upstash: {
     url: optional("UPSTASH_REDIS_REST_URL"),
     token: optional("UPSTASH_REDIS_REST_TOKEN"),
