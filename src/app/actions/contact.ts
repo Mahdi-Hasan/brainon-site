@@ -6,7 +6,6 @@ import { z } from "zod";
 
 import { sendMail } from "@/lib/mailer";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { verifyTurnstile } from "@/lib/turnstile";
 import { env } from "@/lib/env";
 import ContactNotification from "@/emails/ContactNotification";
 import ContactAutoresponder from "@/emails/ContactAutoresponder";
@@ -23,7 +22,6 @@ const ContactSchema = z.object({
   budget: z.enum(BUDGETS).optional().or(z.literal("")),
   // honeypot — bots fill it, humans don't see it
   website: z.string().max(0).optional().or(z.literal("")),
-  turnstileToken: z.string().optional().or(z.literal("")),
 });
 
 export type ContactState =
@@ -40,7 +38,6 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
     scope: String(formData.get("scope") ?? ""),
     budget: String(formData.get("budget") ?? ""),
     website: String(formData.get("website") ?? ""),
-    turnstileToken: String(formData.get("cf-turnstile-response") ?? ""),
   };
 
   const parsed = ContactSchema.safeParse(raw);
@@ -69,13 +66,6 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
   const rl = await checkRateLimit(ip);
   if (!rl.ok) {
     return { status: "error", message: "Too many submissions from this network. Try again in an hour." };
-  }
-
-  if (env.turnstile.secret) {
-    const ok = await verifyTurnstile(data.turnstileToken ?? "", ip);
-    if (!ok) {
-      return { status: "error", message: "Spam check failed. Refresh the page and try again." };
-    }
   }
 
   const submittedAt = new Date().toISOString().replace("T", " ").slice(0, 19) + " UTC";
