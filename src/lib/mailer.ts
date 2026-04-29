@@ -6,14 +6,16 @@ let cached: Transporter | null = null;
 
 function transporter(): Transporter {
   if (cached) return cached;
+  // Pool disabled on purpose: Vercel functions are frozen between invocations,
+  // and pooled SMTP connections don't survive freeze/thaw — they error on next use.
   cached = nodemailer.createTransport({
     host: env.smtp.host,
     port: env.smtp.port,
     secure: env.smtp.secure,
     auth: { user: env.smtp.user, pass: env.smtp.password },
-    pool: true,
-    maxConnections: 2,
-    maxMessages: 50,
+    connectionTimeout: 8_000,
+    greetingTimeout: 8_000,
+    socketTimeout: 8_000,
   });
   return cached;
 }

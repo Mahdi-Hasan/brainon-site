@@ -105,12 +105,19 @@ export async function submitContact(_prev: ContactState, formData: FormData): Pr
         text: ackText,
       });
     } catch (err) {
-      console.debug("autoresponder failed", err);
+      console.error("[contact] autoresponder failed:", err);
     }
 
     return { status: "ok", messageId: sent.messageId };
   } catch (err) {
-    console.debug("contact send failed", err);
+    // surface the actual SMTP error in Vercel runtime logs
+    const e = err as { code?: string; responseCode?: number; response?: string; message?: string };
+    console.error("[contact] send failed:", {
+      code: e?.code,
+      responseCode: e?.responseCode,
+      response: e?.response,
+      message: e?.message,
+    });
     return { status: "error", message: "We couldn't send the memo. Try again, or email us directly." };
   }
 }
