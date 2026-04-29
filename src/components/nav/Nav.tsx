@@ -27,28 +27,82 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active-section detection via IntersectionObserver
+  // Active-section detection — scroll-driven so it stays accurate through
+  // pinned sections, short sections, and fast scrolls (where IntersectionObserver
+  // with a narrow rootMargin band would miss transitions and freeze the pill).
   useEffect(() => {
     if (pathname !== "/") return;
 
-    const ids = SITE.nav.map((n) => n.href).filter((h) => h.startsWith("#")).map((h) => h.slice(1));
-    const targets = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+    const ids = SITE.nav
+      .map((n) => n.href)
+      .filter((h) => h.startsWith("#"))
+      .map((h) => h.slice(1));
+    const getTargets = () => {
+      const els = ids
+        .map((id) => document.getElementById(id))
+        .filter((el): el is HTMLElement => !!el);
+      // Sort by DOM order — nav menu order (Work, Services, About, Contact)
+      // does NOT match physical page order (About, Services, Work, Contact),
+      // so iterating naively would break the "last one above the anchor" walk.
+      els.sort((a, b) => {
+        const pos = a.compareDocumentPosition(b);
+        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        return 0;
+      });
+      return els;
+    };
+
+    let targets = getTargets();
     if (targets.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) {
-          setActiveHash("#" + visible[0].target.id);
-        }
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.2, 0.5, 0.8, 1] }
-    );
+    let frame = 0;
+    const compute = () => {
+      // Anchor line sits ~28% down the viewport — well below the nav, just above
+      // the visual centre. The active section is the last one (in DOM order)
+      // whose top has crossed that line.
+      const anchor = window.innerHeight * 0.28;
+      let current = targets[0];
+      for (const el of targets) {
+        const top = el.getBoundingClientRect().top;
+        if (top - anchor <= 0) current = el;
+        else break;
+      }
 
-    targets.forEach((t) => observer.observe(t));
-    return () => observer.disconnect();
+      // Bottom of page: lock to the DOM-last section so Contact stays highlighted
+      // even when scrolled to the absolute end.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4;
+      if (atBottom) current = targets[targets.length - 1];
+
+      setActiveHash("#" + current.id);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        compute();
+      });
+    };
+
+    // Re-resolve targets after route/layout settles (sections may mount late).
+    const refresh = () => {
+      targets = getTargets();
+      compute();
+    };
+
+    compute();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", refresh);
+    if ("fonts" in document) document.fonts.ready.then(refresh);
+
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", refresh);
+    };
   }, [pathname]);
 
   const closeMenu = () => setOpen(false);

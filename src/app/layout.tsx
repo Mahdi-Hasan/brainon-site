@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { PageTransition } from "@/components/motion/PageTransition";
 import { Nav } from "@/components/nav/Nav";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/content/site";
@@ -18,12 +17,6 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter-tight",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-jetbrains",
 });
 
 export const viewport: Viewport = {
@@ -51,7 +44,7 @@ export const metadata: Metadata = {
     url: SITE.url,
     images: [
       {
-        url: "/brand/brainon-logo.png",
+        url: "/brand/og.png",
         width: 1200,
         height: 630,
         alt: `${SITE.name} — ${SITE.tagline}`,
@@ -62,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
-    images: ["/brand/brainon-logo.png"],
+    images: ["/brand/og.png"],
   },
   icons: {
     icon: "/icon.png",
@@ -72,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${interTight.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${interTight.variable}`}>
       <body>
         <a
           href="#main"
@@ -83,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll>
           <Nav />
           <main id="main" className="relative z-10">
-            <PageTransition>{children}</PageTransition>
+            {children}
           </main>
           <Footer />
         </SmoothScroll>

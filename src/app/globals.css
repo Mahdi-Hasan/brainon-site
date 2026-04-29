@@ -18,7 +18,7 @@
   /* Fonts (CSS variables come from next/font in layout.tsx) */
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace;
 
   /* Type scale */
   --text-xs: clamp(0.78rem, 0.75rem + 0.15vw, 0.85rem);
@@ -83,6 +83,8 @@
       var(--color-bone);
   }
 
+  /* Grain — applied as a normal layer (no mix-blend-mode) so the GPU
+     doesn't recomposite the entire viewport on every animation frame. */
   body::before {
     content: "";
     position: fixed;
@@ -90,8 +92,7 @@
     pointer-events: none;
     z-index: 1;
     background-image: var(--grain);
-    mix-blend-mode: multiply;
-    opacity: 0.55;
+    opacity: 0.18;
   }
 
   h1, h2, h3 {
