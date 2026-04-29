@@ -5,6 +5,7 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Nav } from "@/components/nav/Nav";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/content/site";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
 const fraunces = Fraunces({
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <Footer />
         </SmoothScroll>
+        <SpeedInsights />
         <Analytics />
       </body>
     </html>
