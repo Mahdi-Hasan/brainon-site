@@ -78,7 +78,7 @@ export function ContactSection() {
             <ContactForm />
           </div>
 
-          <aside className="md:col-span-4 md:col-start-9 space-y-10 self-start border-t border-[color-mix(in_oklab,var(--color-ink)_15%,transparent)] pt-8 font-mono text-sm">
+          <aside className="md:col-span-4 md:col-start-9 space-y-10 self-stretch border-t border-[color-mix(in_oklab,var(--color-ink)_15%,transparent)] pt-8 font-mono text-sm">
             <div>
               <p className="eyebrow mb-3">Email</p>
               <a href={`mailto:${SITE.email}`} className="leading-7 hover:opacity-70">
@@ -92,6 +92,20 @@ export function ContactSection() {
             <div>
               <p className="eyebrow mb-3">Hours</p>
               <p className="leading-7">Always at least one hub awake.</p>
+            </div>
+            <div>
+              <p className="eyebrow mb-3">Response</p>
+              <p className="leading-7">A 2-page memo within 72h, written by the engineer who&apos;d lead the work.</p>
+            </div>
+            <div>
+              <p className="eyebrow mb-3">NDA</p>
+              <p className="leading-7">Mutual NDA on request — countersigned within a business day.</p>
+            </div>
+            <div className="pt-8 border-t border-[color-mix(in_oklab,var(--color-ink)_15%,transparent)]">
+              <p className="eyebrow mb-3">Not the right fit?</p>
+              <p className="leading-7 text-[var(--color-ink)]/70">
+                We&apos;ll point you at three studios who likely are. No referral fees, no warm handoffs we can&apos;t vouch for.
+              </p>
             </div>
           </aside>
         </div>

@@ -76,12 +76,20 @@ export function HorizontalWork() {
       <div className="container-page mb-16 grid grid-cols-1 gap-8 md:grid-cols-12">
         <p className="eyebrow md:col-span-3">Selected work · 2024–2026</p>
         <h2
-          className="md:col-span-9 font-display tracking-[-0.04em]"
+          className="md:col-span-7 font-display tracking-[-0.04em]"
           style={{ fontSize: "clamp(2.5rem, 6vw, 5.5rem)", lineHeight: 0.95 }}
         >
           <span className="display-heavy">Tools that get used</span>{" "}
           <span className="display-italic">until they don&apos;t need us.</span>
         </h2>
+        <aside className="md:col-span-2 md:col-start-11 self-end border-t border-[color-mix(in_oklab,var(--color-ink)_15%,transparent)] pt-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-fog)]">
+          <p>
+            <span className="text-[var(--color-ink)]">5 cases</span> · pin &amp; scroll
+          </p>
+          <p className="mt-3 normal-case tracking-normal text-[var(--color-ink)]/70">
+            Each shipped to production, still in use, still measurable.
+          </p>
+        </aside>
       </div>
 
       {/* Pinned stage — exactly 100svh so the entire viewport is the canvas while horizontal scroll runs. */}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ensureGsap, SplitText } from "@/lib/gsap-init";
@@ -99,15 +98,6 @@ export function Hero() {
 
       {/* Ambient drifting marks */}
       <Floaters floaters={HeroFloaters} className="z-[-1]" />
-
-      {/* Brand mark — floats near the headline, drifts diagonally */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute right-[8vw] bottom-[16vh] z-[-1] hidden h-32 w-32 anim-drift-orbit md:block"
-        style={{ filter: "drop-shadow(0 12px 40px color-mix(in oklab, var(--color-ink) 35%, transparent))" }}
-      >
-        <Image src="/brand/brainon-mark.png" alt="" width={200} height={200} className="h-full w-full object-contain" />
-      </span>
 
       {/* Orbiting "available" badge — top-right of hero, on top */}
       <span
